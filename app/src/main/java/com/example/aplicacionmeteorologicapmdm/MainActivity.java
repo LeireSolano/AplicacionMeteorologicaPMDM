@@ -52,16 +52,35 @@ public class MainActivity extends AppCompatActivity {
                         try {
                             JSONArray jsonArray = response.getJSONArray(  "days");
 
+
+
+
                             for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject employee = jsonArray.getJSONObject(i);
+                                JSONObject dias = jsonArray.getJSONObject(i);
 
+                                String datetime = dias.getString("datetime");
+                                double tempmax = dias.getDouble("tempmax");
+                                double tempmin = dias.getDouble("tempmin");
+                                String condicion=dias.getString("conditions");
 
-                                String datetime = employee.getString("datetime");
-                                double tempmax = employee.getDouble("tempmax");
-                                double tempmin = employee.getDouble("tempmin");
+                                switch (condicion){
+                                    case "PartPartially cloudy":
+                                        //poner la imagen correspondiente
+                                }
 
-                                resultado.append(datetime +", "  + String.valueOf(tempmax) + ", " + String.valueOf(tempmin));
+                                resultado.append(datetime +", "  + String.valueOf(tempmax) + ", " + String.valueOf(tempmin)+", "+condicion);
                             }
+
+                            /*JSONArray jsonCondicion = response.getJSONArray(  "conditions");
+
+                            for(int x=0;x<jsonCondicion.length();x++){
+
+                                JSONObject objct = jsonArray.getJSONObject(x);
+
+                                String condicion=objct.getString("conditions");
+
+                                resultado.append(", "+String.valueOf(condicion));
+                            }*/
 
 
                         } catch (JSONException e) {

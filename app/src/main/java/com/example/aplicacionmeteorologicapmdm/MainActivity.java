@@ -1,5 +1,6 @@
 package com.example.aplicacionmeteorologicapmdm;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -19,6 +20,14 @@ import org.json.JSONObject;
 public class MainActivity extends AppCompatActivity {
 
     private TextView resultado;
+    private TextView hora;
+    private TextView condiciones;
+
+    private TextView temperatura;
+    private TextView sensacion;
+
+
+
     private RequestQueue mQ;
     private static final String TAG = "WeatherApp";
     private static final String API_KEY = "HG5UCRUSBKGYS34URRNB5ZWUZ";
@@ -30,6 +39,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         TextView resultado = findViewById(R.id.resultado);
+        TextView hora = findViewById(R.id.hora);
+        TextView condiciones = findViewById(R.id.condiciones);
+        TextView temperatura = findViewById(R.id.temperatura);
+        TextView fecha = findViewById(R.id.fecha);
+        TextView sensacion = findViewById(R.id.sensacion);
 
 
 
@@ -45,15 +59,8 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, "Respuesta: " + response.toString());
                         // Aquí puedes realizar las operaciones necesarias con los datos meteorológicos
 
-
-                        String s = "Respuesta: " + response.toString();
-                        //resultado.setText(s);
-
                         try {
                             JSONArray jsonArray = response.getJSONArray(  "days");
-
-
-
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject dias = jsonArray.getJSONObject(i);
@@ -63,12 +70,21 @@ public class MainActivity extends AppCompatActivity {
                                 double tempmin = dias.getDouble("tempmin");
                                 String condicion=dias.getString("conditions");
 
+                               // String horaActual = currentconditions.getString("datetime");
+                                double temperaturaActual = dias.getDouble("temp");
+                                double sensacionTermica = dias.getDouble("feelslike");
+
+
                                 switch (condicion){
                                     case "PartPartially cloudy":
                                         //poner la imagen correspondiente
                                 }
 
-                                resultado.append(datetime +", "  + String.valueOf(tempmax) + ", " + String.valueOf(tempmin)+", "+condicion);
+                                resultado.append("MAX:  "  + tempmax + "Cº           MIN: " + tempmin +"Cº");
+                                sensacion.append("Sensación Térmica: "+sensacionTermica + " Cº" );
+                                condiciones.append(condicion);
+                                temperatura.append(temperaturaActual + " Cº");
+                                fecha.append(datetime);
                             }
 
                             /*JSONArray jsonCondicion = response.getJSONArray(  "conditions");
@@ -86,6 +102,8 @@ public class MainActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }
+
+
 
                     }
                 }, new Response.ErrorListener() {

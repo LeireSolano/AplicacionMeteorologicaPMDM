@@ -6,24 +6,116 @@
     android:layout_height="match_parent"
     android:backgroundTint="@color/colorfondo"
     tools:context=".MainActivity"
-
-
     >
 
-    <pl.droidsonroids.gif.GifImageView
-        android:layout_width="50mm"
-        android:layout_height="50mm"
 
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gifImageView2"
+        android:layout_width="295dp"
+        android:layout_height="268dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginBottom="34dp"
         android:src="@drawable/sol"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/temperatura"
+        app:layout_constraintVertical_bias="0.799"
+        tools:ignore="MissingClass,MissingConstraints" />
 
     <TextView
         android:id="@+id/resultado"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="317dp"
+        android:layout_height="44dp"
+        android:hint="tiempo max y min"
+        android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
 
+        app:layout_constraintVertical_bias="0.384" />
+
+    <TextView
+        android:id="@+id/temperatura"
+        android:layout_width="281dp"
+        android:layout_height="66dp"
+        android:hint="temp"
+        android:textAlignment="center"
+        android:textSize="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.446"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.177" />
+
+    <TextView
+        android:id="@+id/ciudad"
+        android:layout_width="285dp"
+        android:layout_height="47dp"
+        android:layout_marginBottom="53dp"
+        android:text="GUADALAJARA"
+        android:hint="localizacion"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.424"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.025" />
+
+    <TextView
+        android:id="@+id/hora"
+        android:layout_width="110dp"
+        android:layout_height="36dp"
+        android:hint="hora"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.158"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.116" />
+
+    <TextView
+        android:id="@+id/fecha"
+        android:layout_width="150dp"
+        android:layout_height="38dp"
+        android:hint="fecha"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.116" />
+
+
+    <TextView
+        android:id="@+id/sensacion"
+        android:layout_width="309dp"
+        android:layout_height="46dp"
+        android:layout_marginEnd="56dp"
+        android:layout_marginBottom="484dp"
+        android:hint="sensacionTermica"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/condiciones"
+        android:layout_width="195dp"
+        android:layout_height="33dp"
+        android:layout_marginEnd="108dp"
+        android:layout_marginBottom="368dp"
+        android:hint="condiciones"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

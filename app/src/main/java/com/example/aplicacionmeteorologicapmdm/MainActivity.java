@@ -2,11 +2,13 @@ package com.example.aplicacionmeteorologicapmdm;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -20,8 +22,9 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {
 
     private TextView resultado;
     private TextView hora;
@@ -35,8 +38,14 @@ public class MainActivity extends AppCompatActivity {
 
     private RequestQueue mQ;
     private static final String TAG = "WeatherApp";
+
     private static final String API_KEY = "HG5UCRUSBKGYS34URRNB5ZWUZ";
     private static final String API_URL = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/Guadalajara%2C%20espa%C3%B1a/today?unitGroup=metric&include=current&key=HG5UCRUSBKGYS34URRNB5ZWUZ&contentType=json";
+
+    // Inicializar TextToSpeech
+    private TextToSpeech textToSpeech;
+    private String condicionLarga; // ya que luego se usa en el TextToSpeech
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +58,7 @@ public class MainActivity extends AppCompatActivity {
         TextView temperatura = findViewById(R.id.temperatura);
         TextView fecha = findViewById(R.id.fecha);
         TextView sensacion = findViewById(R.id.sensacion);
-        ImageView imagenClima=findViewById(R.id.gifImageView2);
-
+        ImageView imagenClima = findViewById(R.id.gifImageView2);
 
 
         // Crear una cola de solicitudes
@@ -66,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                         // Aquí puedes realizar las operaciones necesarias con los datos meteorológicos
 
                         try {
-                            JSONArray jsonArray = response.getJSONArray(  "days");
+                            JSONArray jsonArray = response.getJSONArray("days");
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject dias = jsonArray.getJSONObject(i);
@@ -74,8 +82,8 @@ public class MainActivity extends AppCompatActivity {
                                 String datetime = dias.getString("datetime");
                                 double tempmax = dias.getDouble("tempmax");
                                 double tempmin = dias.getDouble("tempmin");
-                                String condicion=dias.getString("icon");
-                                String condicionLarga=dias.getString("conditions");
+                                String condicion = dias.getString("icon");
+                                condicionLarga = dias.getString("conditions");
                                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
                                 String currentDateandTime = simpleDateFormat.format(new Date());
 
@@ -83,23 +91,23 @@ public class MainActivity extends AppCompatActivity {
                                 double temperaturaActual = dias.getDouble("temp");
                                 double sensacionTermica = dias.getDouble("feelslike");
 
-                                if(condicion.contains("snow"))
-                                    condicion="snow";
+                                if (condicion.contains("snow"))
+                                    condicion = "snow";
 
-                                if(condicion.contains("thunder"))
-                                    condicion="thunder";
+                                if (condicion.contains("thunder"))
+                                    condicion = "thunder";
 
-                                if(condicion.contains("showers"))
-                                    condicion="rain";
+                                if (condicion.contains("showers"))
+                                    condicion = "rain";
 
-                                if(condicion.contains("cloudy"))
-                                    condicion="cloudy";
+                                if (condicion.contains("cloudy"))
+                                    condicion = "cloudy";
 
-                                if(condicion.contains("night"))
-                                    condicion="night";
+                                if (condicion.contains("night"))
+                                    condicion = "night";
 
 
-                                switch (condicion){
+                                switch (condicion) {
                                     case "snow":
                                         //poner la imagen correspondiente
                                         imagenClima.setImageResource(R.drawable.nevando);
@@ -131,11 +139,11 @@ public class MainActivity extends AppCompatActivity {
 
                                 }
 
-                                resultado.append("MAX:  "  + tempmax + "Cº           MIN: " + tempmin +"Cº");
-                                sensacion.append("Sensación Térmica: "+sensacionTermica + " Cº" );
+                                resultado.append("MAX:  " + tempmax + "Cº           MIN: " + tempmin + "Cº");
+                                sensacion.append("Sensación Térmica: " + sensacionTermica + " Cº");
                                 condiciones.append(condicionLarga);
                                 temperatura.append(temperaturaActual + " Cº");
-                                fecha.append(datetime+", "+currentDateandTime);
+                                fecha.append(datetime + ", " + currentDateandTime);
                             }
 
                             /*JSONArray jsonCondicion = response.getJSONArray(  "conditions");
@@ -150,22 +158,48 @@ public class MainActivity extends AppCompatActivity {
                             }*/
 
 
+                            // Initialize TextToSpeech
+                            textToSpeech = new TextToSpeech(MainActivity.this, MainActivity.this);
+
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }
-
-
-
                     }
                 }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // Manejar errores de la solicitud
-                        Log.e(TAG, "Error en la solicitud: " + error.toString());
-                    }
-                });
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Manejar errores de la solicitud
+                Log.e(TAG, "Error en la solicitud: " + error.toString());
+            }
+        });
 
         // Agregar la solicitud a la cola
         queue.add(jsonObjectRequest);
+    }
+
+    @Override
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS) {
+            // TextToSpeech se inicializó correctamente
+            int result = textToSpeech.setLanguage(new Locale("es", "ES")); // Establecer el idioma español
+
+            if (result == TextToSpeech.LANG_MISSING_DATA ||
+                    result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.e(TAG, "Idioma español no soportado");
+            } else {
+                textToSpeech.speak("El clima es " + condicionLarga, TextToSpeech.QUEUE_FLUSH, null, null);
+            }
+        } else {
+            Log.e(TAG, "Fallo en la inicialización del TextToSpeech");
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (textToSpeech != null) {
+            textToSpeech.stop();
+            textToSpeech.shutdown();
+        }
+        super.onDestroy();
     }
 }

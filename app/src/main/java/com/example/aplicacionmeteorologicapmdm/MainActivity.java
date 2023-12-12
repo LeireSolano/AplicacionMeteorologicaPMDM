@@ -65,8 +65,10 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, "Respuesta: " + response.toString());
                         // Aquí puedes realizar las operaciones necesarias con los datos meteorológicos
 
+
                         try {
                             JSONArray jsonArray = response.getJSONArray(  "days");
+                            JSONObject current = response.getJSONObject( "currentConditions");
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject dias = jsonArray.getJSONObject(i);
@@ -74,14 +76,11 @@ public class MainActivity extends AppCompatActivity {
                                 String datetime = dias.getString("datetime");
                                 double tempmax = dias.getDouble("tempmax");
                                 double tempmin = dias.getDouble("tempmin");
-                                String condicion=dias.getString("icon");
-                                String condicionLarga=dias.getString("conditions");
-                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
-                                String currentDateandTime = simpleDateFormat.format(new Date());
-
-                                // String horaActual = currentconditions.getString("datetime");
-                                double temperaturaActual = dias.getDouble("temp");
-                                double sensacionTermica = dias.getDouble("feelslike");
+                                String condicion = current.getString("icon");
+                                String condicionLarga = current.getString("conditions");
+                                String horaActual = current.getString("datetime");
+                                double temperaturaActual = current.getDouble("temp");
+                                double sensacionTermica = current.getDouble("feelslike");
 
                                 if(condicion.contains("snow"))
                                     condicion="snow";
@@ -135,7 +134,8 @@ public class MainActivity extends AppCompatActivity {
                                 sensacion.append("Sensación Térmica: "+sensacionTermica + " Cº" );
                                 condiciones.append(condicionLarga);
                                 temperatura.append(temperaturaActual + " Cº");
-                                fecha.append(datetime+", "+currentDateandTime);
+                                fecha.append(datetime);
+                                hora.append(horaActual);
                             }
 
                             /*JSONArray jsonCondicion = response.getJSONArray(  "conditions");

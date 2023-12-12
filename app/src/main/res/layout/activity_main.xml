@@ -15,7 +15,7 @@
         android:layout_height="268dp"
         android:layout_marginEnd="60dp"
         android:layout_marginBottom="34dp"
-        android:src="@drawable/sol"
+        android:src="@drawable/dom"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/temperatura"
@@ -75,25 +75,25 @@
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.158"
+        app:layout_constraintHorizontal_bias="0.093"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.116" />
+        app:layout_constraintVertical_bias="0.117" />
+
 
     <TextView
         android:id="@+id/fecha"
-        android:layout_width="150dp"
+        android:layout_width="220dp"
         android:layout_height="38dp"
         android:hint="fecha"
         android:textAlignment="center"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintHorizontal_bias="0.867"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.116" />
-
+        app:layout_constraintVertical_bias="0.115" />
 
     <TextView
         android:id="@+id/sensacion"

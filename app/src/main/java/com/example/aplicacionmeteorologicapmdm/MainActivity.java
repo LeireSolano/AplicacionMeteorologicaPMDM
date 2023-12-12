@@ -3,6 +3,7 @@ package com.example.aplicacionmeteorologicapmdm;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +18,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
 
     private TextView resultado;
@@ -25,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView temperatura;
     private TextView sensacion;
+
+    private ImageView imagenClima;
 
 
 
@@ -44,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         TextView temperatura = findViewById(R.id.temperatura);
         TextView fecha = findViewById(R.id.fecha);
         TextView sensacion = findViewById(R.id.sensacion);
+        ImageView imagenClima=findViewById(R.id.gifImageView2);
 
 
 
@@ -68,23 +75,68 @@ public class MainActivity extends AppCompatActivity {
                                 String datetime = dias.getString("datetime");
                                 double tempmax = dias.getDouble("tempmax");
                                 double tempmin = dias.getDouble("tempmin");
-                                String condicion=dias.getString("conditions");
+                                String condicion=dias.getString("icon");
+                                String condicionLarga=dias.getString("conditions");
+                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+                                String currentDateandTime = simpleDateFormat.format(new Date());
 
-                               // String horaActual = currentconditions.getString("datetime");
+                                // String horaActual = currentconditions.getString("datetime");
                                 double temperaturaActual = dias.getDouble("temp");
                                 double sensacionTermica = dias.getDouble("feelslike");
 
+                                if(condicion.contains("snow"))
+                                    condicion="snow";
+
+                                if(condicion.contains("thunder"))
+                                    condicion="thunder";
+
+                                if(condicion.contains("showers"))
+                                    condicion="rain";
+
+                                if(condicion.contains("cloudy"))
+                                    condicion="cloudy";
+
+                                if(condicion.contains("night"))
+                                    condicion="night";
+
 
                                 switch (condicion){
-                                    case "PartPartially cloudy":
+                                    case "snow":
                                         //poner la imagen correspondiente
+                                        imagenClima.setImageResource(R.drawable.nevando);
+                                        break;
+                                    case "rain":
+                                        //poner la imagen correspondiente
+                                        imagenClima.setImageResource(R.drawable.llovizna);
+                                        break;
+                                    case "fog":
+                                        //poner la imagen correspondiente
+                                        imagenClima.setImageResource(R.drawable.niebla);
+                                        break;
+                                    case "wind":
+                                        //poner la imagen correspondiente
+                                        imagenClima.setImageResource(R.drawable.ventoso);
+                                        break;
+                                    case "cloudy":
+                                        //poner la imagen correspondiente
+                                        imagenClima.setImageResource(R.drawable.partly_cloudy);
+                                        break;
+                                    case "clear-day":
+                                        //poner la imagen correspondiente
+                                        imagenClima.setImageResource(R.drawable.dom);
+                                        break;
+                                    case "night":
+                                        //poner la imagen correspondiente
+                                        imagenClima.setImageResource(R.drawable.luna);
+                                        break;
+
                                 }
 
                                 resultado.append("MAX:  "  + tempmax + "Cº           MIN: " + tempmin +"Cº");
                                 sensacion.append("Sensación Térmica: "+sensacionTermica + " Cº" );
-                                condiciones.append(condicion);
+                                condiciones.append(condicionLarga);
                                 temperatura.append(temperaturaActual + " Cº");
-                                fecha.append(datetime);
+                                fecha.append(datetime+", "+currentDateandTime);
                             }
 
                             /*JSONArray jsonCondicion = response.getJSONArray(  "conditions");

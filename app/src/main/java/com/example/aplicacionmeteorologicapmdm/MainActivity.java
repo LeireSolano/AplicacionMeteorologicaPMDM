@@ -33,8 +33,6 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imagenClima;
 
 
-    String broma ="nerfeen a maria jesus";
-
     private RequestQueue mQ;
     private static final String TAG = "WeatherApp";
     private static final String API_KEY = "HG5UCRUSBKGYS34URRNB5ZWUZ";

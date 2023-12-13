@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
                 textToSpeech.speak("El clima es " + condicionLarga, TextToSpeech.QUEUE_FLUSH, null, null);
             }
         } else {
-            Log.e(TAG, "Fallo en la inicialización del TextToSpeech");
+            Log.e(TAG, "ERROR");
         }
     }
 

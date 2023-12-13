@@ -1,6 +1,5 @@
 package com.example.aplicacionmeteorologicapmdm;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
@@ -20,8 +19,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {
@@ -98,7 +95,6 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
                             if(condicion.contains("night"))
                                 condicion="night";
 
-
                             switch (condicion){
                                 case "snow":
                                     //poner la imagen correspondiente
@@ -128,8 +124,15 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
                                     //poner la imagen correspondiente
                                     imagenClima.setImageResource(R.drawable.luna);
                                     break;
+                                case "thunder":
+                                    //poner la imagen correspondiente
+                                    imagenClima.setImageResource(R.drawable.tormenta);
+                                    break;
+
 
                             }
+
+                            condicionLarga=TraduccionCondicion(condicionLarga, condicion);
 
                                 JSONObject dias = jsonArray.getJSONObject(0);
                                 String datetime = dias.getString("datetime");
@@ -171,6 +174,40 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
         // Agregar la solicitud a la cola
         queue.add(jsonObjectRequest);
+    }
+
+    public String TraduccionCondicion(String condicionLarga, String condicion){
+
+        if(condicionLarga.equals("Partially cloudy")){
+
+            condicionLarga="Parcialmente Nublado";
+        }
+        if(condicion.equals("snow")){
+
+            condicionLarga="Nevando";
+        }
+        if(condicion.equals("rain")){
+
+            condicionLarga="Lloviendo";
+        }
+        if(condicion.equals("fog")){
+
+            condicionLarga="Niebla densa";
+        }
+        if(condicion.equals("wind")) {
+
+            condicionLarga = "Ventoso";
+        }
+        if(condicion.equals("clear-day")){
+
+            condicionLarga="Despejado";
+        }
+        if(condicion.equals("night")){
+
+            condicionLarga="Noche";
+        }
+
+        return condicionLarga;
     }
 
     /*

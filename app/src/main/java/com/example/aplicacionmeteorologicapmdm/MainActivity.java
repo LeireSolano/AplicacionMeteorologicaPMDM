@@ -177,6 +177,9 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
         queue.add(jsonObjectRequest);
     }
 
+    /*
+    CREO EL TEXTtoSPEECH
+     */
     @Override
     public void onInit(int status) {
         if (status == TextToSpeech.SUCCESS) {

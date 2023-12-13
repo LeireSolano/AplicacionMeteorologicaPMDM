@@ -74,7 +74,8 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
                         // Aquí puedes realizar las operaciones necesarias con los datos meteorológicos
 
                         try {
-                            JSONArray jsonArray = response.getJSONArray("days");
+                            JSONArray jsonArray = response.getJSONArray(  "days");
+                            JSONObject current = response.getJSONObject( "currentConditions");
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject dias = jsonArray.getJSONObject(i);
@@ -82,32 +83,29 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
                                 String datetime = dias.getString("datetime");
                                 double tempmax = dias.getDouble("tempmax");
                                 double tempmin = dias.getDouble("tempmin");
-                                String condicion = dias.getString("icon");
-                                condicionLarga = dias.getString("conditions");
-                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
-                                String currentDateandTime = simpleDateFormat.format(new Date());
+                                String condicion = current.getString("icon");
+                                String condicionLarga = current.getString("conditions");
+                                String horaActual = current.getString("datetime");
+                                double temperaturaActual = current.getDouble("temp");
+                                double sensacionTermica = current.getDouble("feelslike");
 
-                                // String horaActual = currentconditions.getString("datetime");
-                                double temperaturaActual = dias.getDouble("temp");
-                                double sensacionTermica = dias.getDouble("feelslike");
+                                if(condicion.contains("snow"))
+                                    condicion="snow";
 
-                                if (condicion.contains("snow"))
-                                    condicion = "snow";
+                                if(condicion.contains("thunder"))
+                                    condicion="thunder";
 
-                                if (condicion.contains("thunder"))
-                                    condicion = "thunder";
+                                if(condicion.contains("showers"))
+                                    condicion="rain";
 
-                                if (condicion.contains("showers"))
-                                    condicion = "rain";
+                                if(condicion.contains("cloudy"))
+                                    condicion="cloudy";
 
-                                if (condicion.contains("cloudy"))
-                                    condicion = "cloudy";
-
-                                if (condicion.contains("night"))
-                                    condicion = "night";
+                                if(condicion.contains("night"))
+                                    condicion="night";
 
 
-                                switch (condicion) {
+                                switch (condicion){
                                     case "snow":
                                         //poner la imagen correspondiente
                                         imagenClima.setImageResource(R.drawable.nevando);
@@ -139,11 +137,12 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
                                 }
 
-                                resultado.append("MAX:  " + tempmax + "Cº           MIN: " + tempmin + "Cº");
-                                sensacion.append("Sensación Térmica: " + sensacionTermica + " Cº");
+                                resultado.append("MAX:  "  + tempmax + "Cº           MIN: " + tempmin +"Cº");
+                                sensacion.append("Sensación Térmica: "+sensacionTermica + " Cº" );
                                 condiciones.append(condicionLarga);
                                 temperatura.append(temperaturaActual + " Cº");
-                                fecha.append(datetime + ", " + currentDateandTime);
+                                fecha.append(datetime);
+                                hora.append(horaActual);
                             }
 
                             /*JSONArray jsonCondicion = response.getJSONArray(  "conditions");
@@ -157,9 +156,6 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
                                 resultado.append(", "+String.valueOf(condicion));
                             }*/
 
-
-                            // Initialize TextToSpeech
-                            textToSpeech = new TextToSpeech(MainActivity.this, MainActivity.this);
 
                         } catch (JSONException e) {
                             throw new RuntimeException(e);

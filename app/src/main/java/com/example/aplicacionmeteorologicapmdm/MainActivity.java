@@ -77,73 +77,71 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
                             JSONArray jsonArray = response.getJSONArray(  "days");
                             JSONObject current = response.getJSONObject( "currentConditions");
 
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject dias = jsonArray.getJSONObject(i);
+                            String condicion = current.getString("icon");
+                            condicionLarga = current.getString("conditions");
+                            String horaActual = current.getString("datetime");
+                            double temperaturaActual = current.getDouble("temp");
+                            double sensacionTermica = current.getDouble("feelslike");
 
+                            if(condicion.contains("snow"))
+                                condicion="snow";
+
+                            if(condicion.contains("thunder"))
+                                condicion="thunder";
+
+                            if(condicion.contains("showers"))
+                                condicion="rain";
+
+                            if(condicion.contains("cloudy"))
+                                condicion="cloudy";
+
+                            if(condicion.contains("night"))
+                                condicion="night";
+
+
+                            switch (condicion){
+                                case "snow":
+                                    //poner la imagen correspondiente
+                                    imagenClima.setImageResource(R.drawable.nevando);
+                                    break;
+                                case "rain":
+                                    //poner la imagen correspondiente
+                                    imagenClima.setImageResource(R.drawable.llovizna);
+                                    break;
+                                case "fog":
+                                    //poner la imagen correspondiente
+                                    imagenClima.setImageResource(R.drawable.niebla);
+                                    break;
+                                case "wind":
+                                    //poner la imagen correspondiente
+                                    imagenClima.setImageResource(R.drawable.ventoso);
+                                    break;
+                                case "cloudy":
+                                    //poner la imagen correspondiente
+                                    imagenClima.setImageResource(R.drawable.partly_cloudy);
+                                    break;
+                                case "clear-day":
+                                    //poner la imagen correspondiente
+                                    imagenClima.setImageResource(R.drawable.dom);
+                                    break;
+                                case "night":
+                                    //poner la imagen correspondiente
+                                    imagenClima.setImageResource(R.drawable.luna);
+                                    break;
+
+                            }
+
+                                JSONObject dias = jsonArray.getJSONObject(0);
                                 String datetime = dias.getString("datetime");
                                 double tempmax = dias.getDouble("tempmax");
                                 double tempmin = dias.getDouble("tempmin");
-                                String condicion = current.getString("icon");
-                                String condicionLarga = current.getString("conditions");
-                                String horaActual = current.getString("datetime");
-                                double temperaturaActual = current.getDouble("temp");
-                                double sensacionTermica = current.getDouble("feelslike");
 
-                                if(condicion.contains("snow"))
-                                    condicion="snow";
-
-                                if(condicion.contains("thunder"))
-                                    condicion="thunder";
-
-                                if(condicion.contains("showers"))
-                                    condicion="rain";
-
-                                if(condicion.contains("cloudy"))
-                                    condicion="cloudy";
-
-                                if(condicion.contains("night"))
-                                    condicion="night";
-
-
-                                switch (condicion){
-                                    case "snow":
-                                        //poner la imagen correspondiente
-                                        imagenClima.setImageResource(R.drawable.nevando);
-                                        break;
-                                    case "rain":
-                                        //poner la imagen correspondiente
-                                        imagenClima.setImageResource(R.drawable.llovizna);
-                                        break;
-                                    case "fog":
-                                        //poner la imagen correspondiente
-                                        imagenClima.setImageResource(R.drawable.niebla);
-                                        break;
-                                    case "wind":
-                                        //poner la imagen correspondiente
-                                        imagenClima.setImageResource(R.drawable.ventoso);
-                                        break;
-                                    case "cloudy":
-                                        //poner la imagen correspondiente
-                                        imagenClima.setImageResource(R.drawable.partly_cloudy);
-                                        break;
-                                    case "clear-day":
-                                        //poner la imagen correspondiente
-                                        imagenClima.setImageResource(R.drawable.dom);
-                                        break;
-                                    case "night":
-                                        //poner la imagen correspondiente
-                                        imagenClima.setImageResource(R.drawable.luna);
-                                        break;
-
-                                }
-
-                                resultado.append("MAX:  "  + tempmax + "Cº           MIN: " + tempmin +"Cº");
-                                sensacion.append("Sensación Térmica: "+sensacionTermica + " Cº" );
-                                condiciones.append(condicionLarga);
-                                temperatura.append(temperaturaActual + " Cº");
-                                fecha.append(datetime);
-                                hora.append(horaActual);
-                            }
+                            resultado.append("MAX:  "  + tempmax + "Cº           MIN: " + tempmin +"Cº");
+                            sensacion.append("Sensación Térmica: "+sensacionTermica + " Cº" );
+                            condiciones.append(condicionLarga);
+                            temperatura.append(temperaturaActual + " Cº");
+                            fecha.append(datetime);
+                            hora.append(horaActual);
 
                             /*JSONArray jsonCondicion = response.getJSONArray(  "conditions");
 
@@ -156,6 +154,8 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
                                 resultado.append(", "+String.valueOf(condicion));
                             }*/
 
+                            // Initialize TextToSpeech
+                            textToSpeech = new TextToSpeech(MainActivity.this, MainActivity.this);
 
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
